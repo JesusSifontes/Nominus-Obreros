@@ -1,4 +1,4 @@
-#importamos Sql Lite como klibreria
+#importamos Sql Lite como libreria
 import sqlite3
 
 def conectar():
@@ -27,6 +27,32 @@ def crear_tablas():
         )
     """)
     
+
+    #tabla de Ley
+    cursor_base_datos.execute("""
+        CREATE TABLE IF NOT EXISTS ley_nomina (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre_regla TEXT UNIQUE,
+            porcentaje REAL
+        )
+    """)
+
+    # Valores parametros de legales por defecto
+    lista_reglas_iniciales = [
+        ('SSO', 0.04),    # Seguro Social 4%
+        ('FAOV', 0.01),   # Vivienda 1%
+        ('PI', 0.005),     # Paro Forzoso 0.5%
+        ('BONO DE GUERRA ECONOMICA', 76500),  # bono guerra economica
+        ('CESTA TICKET', 20000)   # cesta ticket alimentos
+    ]
+    
+    for nombre_regla, valor_regla in lista_reglas_iniciales:
+        cursor_base_datos.execute(
+            "INSERT OR IGNORE INTO ley_nomina (nombre_regla, porcentaje) VALUES (?, ?)", 
+            (nombre_regla, valor_regla)
+        )
+
+
     
     conexion_base_datos.commit()
     conexion_base_datos.close()

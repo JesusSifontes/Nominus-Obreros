@@ -9,6 +9,9 @@ from database import conectar
 #Importamos vista o ventana para crear empleado
 from empleados import ventana_registro
 
+#Importamos parametros_ley.py , aqui estan los parametros obligatorios del trabajador
+from parametros_ley import ventana_parametros
+
 #se crean las base de datos 
 from database import crear_tablas 
 crear_tablas() 
@@ -38,10 +41,7 @@ def eliminar_empleado(id_empleado):
 
 #aqui definimos una validacion para que los decimales sean una  ( , ) , y no un ( . )
 def formatear_pantalla_venezuela(valor_monetario):
-    """
-    Función auxiliar idéntica a parametros_ley.py para dar formato
-    con puntos en miles y comas en decimales (ej: 58.000,0000)
-    """
+    #funcion auxiliar idéntica a parametros_ley.py para dar formato con puntos en miles y comas en decimales (ej: 58.000,0000)
     cadena_base = f"{valor_monetario:.4f}"
     parte_entera, parte_decimal = cadena_base.split(".")
     parte_entera_con_puntos = "{:,}".format(int(parte_entera)).replace(",", ".")
@@ -123,6 +123,8 @@ marco_acciones_principales.pack(pady=30)
 
 #boton que redirige para crear empleado
 ctk.CTkButton(marco_acciones_principales, text="Registrar Empleado", command=lambda: ventana_registro(actualizar_listado), fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=0, padx=25)
+#se agrega boton que redirige a parametros de ley .py
+ctk.CTkButton(marco_acciones_principales, text="Parametros de ley", command=ventana_parametros, fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=25)
 
 #pequeño label para mostrar el listado de los empleados
 ctk.CTkLabel(aplicacion_principal, text="Listado de Todos Los Empleados Activos", font=("Arial", 16, "bold")).pack(pady=(10, 5))
