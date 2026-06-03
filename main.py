@@ -93,7 +93,13 @@ def actualizar_listado():
                 ctk.CTkLabel(frame_datos_tabla, text=texto_dato, wraplength=ajuste_linea).grid(row=indice_fila, column=indice_campo, padx=5, pady=5)
             
             #boton para actualizar
-            # axel aqui coloca la actualizacion del empleado
+            boton_editar_registro = ctk.CTkButton(
+                frame_datos_tabla, text="Actualizar", fg_color="#2b88d9", hover_color="#2a394a", 
+                width=80, height=25, font=("Arial", 11, "bold"),
+                command=lambda datos_empleado=datos_fila: ventana_editar(datos_empleado, actualizar_listado) #wilmer falta la ventana de editar a los empleados
+            )
+            boton_editar_registro.grid(row=indice_fila, column=10, padx=5, pady=5)
+            # wilmer aqui coloca la actualizacion del empleado
 
             #boton para eliminar empleado
             boton_eliminar_registro = ctk.CTkButton(
