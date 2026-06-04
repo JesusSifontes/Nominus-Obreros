@@ -9,6 +9,9 @@ from database import conectar
 #Importamos vista o ventana para crear empleado
 from empleados import ventana_registro
 
+#Importamos ventana para editar datos de un empleado
+from empleados_editar import ventana_editar
+
 #Importamos parametros_ley.py , aqui estan los parametros obligatorios del trabajador
 from parametros_ley import ventana_parametros
 
@@ -31,7 +34,7 @@ def eliminar_empleado(id_empleado):
             cursor_base_datos = conexion_base_datos.cursor()
             cursor_base_datos.execute("DELETE FROM empleados WHERE id = ?", (id_empleado,))
             conexion_base_datos.commit()
-            messagebox.showinfo("El Empleado ha sido Eliminado Correctamente.")
+            messagebox.showinfo("Éxito", f"El Empleado ha sido Eliminado Correctamente.")
             actualizar_listado()
         except Exception as error_eliminar:
             messagebox.showerror("ERROR: ", f"No se pudo eliminar al empleado: {error_eliminar}")
@@ -48,7 +51,7 @@ def formatear_pantalla_venezuela(valor_monetario):
     resultado_formateado = f"{parte_entera_con_puntos},{parte_decimal}"
     return resultado_formateado
 
-#esta es la lista donde se muestran los empleados registrados o creados
+
 def actualizar_listado():
     for componente_elemento in frame_datos_tabla.winfo_children():
         componente_elemento.destroy()
@@ -92,14 +95,14 @@ def actualizar_listado():
                 
                 ctk.CTkLabel(frame_datos_tabla, text=texto_dato, wraplength=ajuste_linea).grid(row=indice_fila, column=indice_campo, padx=5, pady=5)
             
-            #boton para actualizar
+            #boton para actualizar un empleado
             boton_editar_registro = ctk.CTkButton(
                 frame_datos_tabla, text="Actualizar", fg_color="#2b88d9", hover_color="#2a394a", 
                 width=80, height=25, font=("Arial", 11, "bold"),
-                command=lambda datos_empleado=datos_fila: ventana_editar(datos_empleado, actualizar_listado) #wilmer falta la ventana de editar a los empleados
+                command=lambda datos_empleado=datos_fila: ventana_editar(datos_empleado, actualizar_listado)
             )
             boton_editar_registro.grid(row=indice_fila, column=10, padx=5, pady=5)
-            # wilmer aqui coloca la actualizacion del empleado
+            
 
             #boton para eliminar empleado
             boton_eliminar_registro = ctk.CTkButton(
