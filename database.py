@@ -42,8 +42,8 @@ def crear_tablas():
         ('SSO', 0.04),    # Seguro Social 4%
         ('FAOV', 0.01),   # Vivienda 1%
         ('PI', 0.005),     # Paro Forzoso 0.5%
-        ('BONO DE GUERRA ECONOMICA', 76500),  # bono guerra economica
-        ('CESTA TICKET', 20000)   # cesta ticket alimentos
+        ('BONO DE GUERRA ECONOMICA', 76500),  # bono guerra economica - ultimo mayo 2026
+        ('CESTA TICKET', 20018)   # cesta ticket alimentos - ultimo mayo 2026
     ]
     
     for nombre_regla, valor_regla in lista_reglas_iniciales:
