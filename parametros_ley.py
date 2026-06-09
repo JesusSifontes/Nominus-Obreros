@@ -15,7 +15,7 @@ def obtener_parametros():
         lista_reglas_ley = cursor_base_datos.fetchall()
         return lista_reglas_ley
     except Exception as error_lectura:
-        messagebox.showerror(f"Error: No se pudieron cargar los parámetros: {error_lectura}")
+        messagebox.showerror("Error", f"No se pudieron cargar los parámetros: {error_lectura}")
         return []
     finally:
         cursor_base_datos.close()
@@ -24,7 +24,7 @@ def obtener_parametros():
 def guardar_parametro(nombre_regla, nombre_completo_regla, nuevo_valor_texto, ventana_origen, callback_recargar):
     #aqui se actualiza el valor en la Base de datos validando minimos, maximos, comas y redondeando a 4 decimales
     if not nuevo_valor_texto.strip():
-        messagebox.showwarning("Advertencia: El valor no puede estar vacío.")
+        messagebox.showwarning("Advertencia", "El valor no puede estar vacío.")
         return
 
     try:
@@ -33,7 +33,7 @@ def guardar_parametro(nombre_regla, nombre_completo_regla, nuevo_valor_texto, ve
         #redondear estrictamente a 4 decimales antes de guardar
         valor_para_guardar = round(valor_flotante, 4)
     except ValueError:
-        messagebox.showerror("Error: Por favor, introduce un número válido.")
+        messagebox.showerror("Error", "Por favor, introduce un número válido.")
         return
 
     #controlador de minimos y maximos segun el tipo de parametros
@@ -45,7 +45,7 @@ def guardar_parametro(nombre_regla, nombre_completo_regla, nuevo_valor_texto, ve
         mensaje_rango_legal = "Debe estar entre 0,0100 Bs. y 999.999,9999 Bs."
 
     if not (minimo_permitido <= valor_para_guardar <= maximo_permitido):
-        messagebox.showwarning(f"Rango Inválido: El valor para '{nombre_completo_regla}' {mensaje_rango_legal}.")
+        messagebox.showwarning("Rango Inválido", f"El valor para '{nombre_completo_regla}' {mensaje_rango_legal}.")
         return
 
     conexion_base_datos = conectar()
@@ -163,7 +163,7 @@ def abrir_ventana_edicion(nombre_regla, nombre_completo_regla, valor_actual_regl
 def ventana_parametros():
     #se genera la ventana principal donde se muestran los parametros de ley
     ventana_principal_parametros = ctk.CTkToplevel()
-    ventana_principal_parametros.title("Parámetros de Ley - Configuración de Nómina")
+    ventana_principal_parametros.title("Configuracion de Parámetros de Ley")
     ventana_principal_parametros.geometry("820x480") 
     ventana_principal_parametros.grab_set()
     ventana_principal_parametros.resizable(False, False)
