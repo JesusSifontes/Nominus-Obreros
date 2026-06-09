@@ -15,6 +15,8 @@ from empleados_editar import ventana_editar
 #Importamos parametros_ley.py , aqui estan los parametros obligatorios del trabajador
 from parametros_ley import ventana_parametros
 
+
+
 #se crean las base de datos 
 from database import crear_tablas 
 crear_tablas() 
@@ -132,8 +134,12 @@ marco_acciones_principales.pack(pady=30)
 
 #boton que redirige para crear empleado
 ctk.CTkButton(marco_acciones_principales, text="Registrar Empleado", command=lambda: ventana_registro(actualizar_listado), fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=0, padx=25)
+
 #se agrega boton que redirige a parametros de ley .py
-ctk.CTkButton(marco_acciones_principales, text="Parametros de ley", command=ventana_parametros, fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=25)
+ctk.CTkButton(marco_acciones_principales, text="Parametros de ley", command=ventana_parametros, fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=1, padx=25)
+
+#se añade boton para nomina
+ctk.CTkButton(marco_acciones_principales, text="Emitir Nómina", command="", fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=25)
 
 #pequeño label para mostrar el listado de los empleados
 ctk.CTkLabel(aplicacion_principal, text="Listado de Todos Los Empleados Activos", font=("Arial", 16, "bold")).pack(pady=(10, 5))
