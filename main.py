@@ -1,32 +1,29 @@
-#Importamos la libreria para interfax grafica customtkinter
 import customtkinter as ctk
-#Importamos libreria para ver la hora actual del PC
 from datetime import datetime
-#Importamos la libreria para interfax grafica tkinter
 from tkinter import messagebox
-#Importamos base de datos
 from database import conectar
-#Importamos vista o ventana para crear empleado
 from empleados import ventana_registro
 
 #Importamos ventana para editar datos de un empleado
 from empleados_editar import ventana_editar
 
-#Importamos parametros_ley.py , aqui estan los parametros obligatorios del trabajador
+from nomina import ventana_nomina
+
+from empleados_editar import ventana_editar
+
 from parametros_ley import ventana_parametros
 
 
 
-#se crean las base de datos 
+
+
 from database import crear_tablas 
 crear_tablas() 
 
-#titulo de la venta principal de la interfaz grafica y se definen los parametros de la venta principal
 aplicacion_principal = ctk.CTk()
 aplicacion_principal.title("Nominus-Obreros v1.0.0")
 aplicacion_principal.geometry("1300x650") 
 
-#funcion que valida la confirmacion para eliminar un empleado
 def eliminar_empleado(id_empleado):
     if messagebox.askyesno("Confirmar: ", f"¿Desea Eliminar el empleado de Id: {id_empleado}?"):
         conexion_base_datos = None
@@ -44,9 +41,8 @@ def eliminar_empleado(id_empleado):
             if cursor_base_datos: cursor_base_datos.close()
             if conexion_base_datos: conexion_base_datos.close()
 
-#aqui definimos una validacion para que los decimales sean una  ( , ) , y no un ( . )
+ 
 def formatear_pantalla_venezuela(valor_monetario):
-    #funcion auxiliar idéntica a parametros_ley.py para dar formato con puntos en miles y comas en decimales (ej: 58.000,0000)
     cadena_base = f"{valor_monetario:.4f}"
     parte_entera, parte_decimal = cadena_base.split(".")
     parte_entera_con_puntos = "{:,}".format(int(parte_entera)).replace(",", ".")
@@ -90,21 +86,13 @@ def actualizar_listado():
             
             for indice_campo in range(10):
                 valor_campo = datos_fila[indice_campo]
-                
-                #aplicamos la función auxiliar al campo sueldo con (columna de indice 9)
                 texto_dato = f"{formatear_pantalla_venezuela(valor_campo)} Bs" if indice_campo == 9 else str(valor_campo)
                 ajuste_linea = 200 if indice_campo == 6 else 0
                 
                 ctk.CTkLabel(frame_datos_tabla, text=texto_dato, wraplength=ajuste_linea).grid(row=indice_fila, column=indice_campo, padx=5, pady=5)
             
-            #boton para actualizar un empleado
-            boton_editar_registro = ctk.CTkButton(
-                frame_datos_tabla, text="Actualizar", fg_color="#2b88d9", hover_color="#2a394a", 
-                width=80, height=25, font=("Arial", 11, "bold"),
-                command=lambda datos_empleado=datos_fila: ventana_editar(datos_empleado, actualizar_listado)
-            )
-            boton_editar_registro.grid(row=indice_fila, column=10, padx=5, pady=5)
-            
+            #boton para actualizar
+            # axel aqui coloca la actualizacion del empleado
 
             #boton para eliminar empleado
             boton_eliminar_registro = ctk.CTkButton(
@@ -120,7 +108,6 @@ def actualizar_listado():
         if cursor_base_datos: cursor_base_datos.close()
         if conexion_base_datos: conexion_base_datos.close()
 
-#aqui inicia la interfaz grafica: donde aparece un NAV , listado de los empleados y boton para registrar empleados
 marco_navegacion = ctk.CTkFrame(aplicacion_principal, height=70, corner_radius=0, fg_color="#2a394a")
 marco_navegacion.pack(side="top", fill="x")
 
@@ -132,14 +119,9 @@ ctk.CTkLabel(marco_navegacion, text=f"FECHA ACTUAL: {fecha_hoy}", font=("Arial",
 marco_acciones_principales = ctk.CTkFrame(aplicacion_principal, fg_color="transparent")
 marco_acciones_principales.pack(pady=30)
 
-#boton que redirige para crear empleado
 ctk.CTkButton(marco_acciones_principales, text="Registrar Empleado", command=lambda: ventana_registro(actualizar_listado), fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=0, padx=25)
-
 #se agrega boton que redirige a parametros de ley .py
-ctk.CTkButton(marco_acciones_principales, text="Parametros de ley", command=ventana_parametros, fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=1, padx=25)
-
-#se añade boton para nomina
-ctk.CTkButton(marco_acciones_principales, text="Emitir Nómina", command="", fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=25)
+ctk.CTkButton(marco_acciones_principales, text="Parametros de ley", command=ventana_parametros, fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=25)
 
 #pequeño label para mostrar el listado de los empleados
 ctk.CTkLabel(aplicacion_principal, text="Listado de Todos Los Empleados Activos", font=("Arial", 16, "bold")).pack(pady=(10, 5))
@@ -147,6 +129,5 @@ ctk.CTkLabel(aplicacion_principal, text="Listado de Todos Los Empleados Activos"
 frame_datos_tabla = ctk.CTkScrollableFrame(aplicacion_principal, width=1250, height=350, orientation="horizontal")
 frame_datos_tabla.pack(pady=10, padx=10, fill="both", expand=True)
 
-#se llama a la funcion actualizar_listado() 
 actualizar_listado()
 aplicacion_principal.mainloop()
