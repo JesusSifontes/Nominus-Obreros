@@ -91,8 +91,13 @@ def actualizar_listado():
                 
                 ctk.CTkLabel(frame_datos_tabla, text=texto_dato, wraplength=ajuste_linea).grid(row=indice_fila, column=indice_campo, padx=5, pady=5)
             
-            #boton para actualizar
-            # axel aqui coloca la actualizacion del empleado
+            #boton para actualizar un empleado
+            boton_editar_registro = ctk.CTkButton(
+                frame_datos_tabla, text="Actualizar", fg_color="#2b88d9", hover_color="#2a394a", 
+                width=80, height=25, font=("Arial", 11, "bold"),
+                command=lambda datos_empleado=datos_fila: ventana_editar(datos_empleado, actualizar_listado)
+            )
+            boton_editar_registro.grid(row=indice_fila, column=10, padx=5, pady=5)
 
             #boton para eliminar empleado
             boton_eliminar_registro = ctk.CTkButton(
@@ -119,12 +124,18 @@ ctk.CTkLabel(marco_navegacion, text=f"FECHA ACTUAL: {fecha_hoy}", font=("Arial",
 marco_acciones_principales = ctk.CTkFrame(aplicacion_principal, fg_color="transparent")
 marco_acciones_principales.pack(pady=30)
 
+#boton que redirige para crear empleado
 ctk.CTkButton(marco_acciones_principales, text="Registrar Empleado", command=lambda: ventana_registro(actualizar_listado), fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=0, padx=25)
+
 #se agrega boton que redirige a parametros de ley .py
-ctk.CTkButton(marco_acciones_principales, text="Parametros de ley", command=ventana_parametros, fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=25)
+ctk.CTkButton(marco_acciones_principales, text="Parametros de ley", command=ventana_parametros, fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=1, padx=25)
+
+#se añade boton para nomina
+ctk.CTkButton(marco_acciones_principales, text="Emitir Nómina", command=ventana_nomina, fg_color="#2fa572", width=280, height=60, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=25)
 
 #pequeño label para mostrar el listado de los empleados
 ctk.CTkLabel(aplicacion_principal, text="Listado de Todos Los Empleados Activos", font=("Arial", 16, "bold")).pack(pady=(10, 5))
+
 
 frame_datos_tabla = ctk.CTkScrollableFrame(aplicacion_principal, width=1250, height=350, orientation="horizontal")
 frame_datos_tabla.pack(pady=10, padx=10, fill="both", expand=True)
